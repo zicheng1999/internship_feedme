@@ -192,6 +192,15 @@ $("#btnRemoveRobot").click(function(){
   }); // end btnRemoveRobot
 
 $("#btnNormalOrder").click(function(){
+    $("#btnNormalOrder").prop('disabled', true); 
+
+    if($("#customer_name").val() == ""){
+        alert("Customer Name must be filled in.");
+        $('#msg').text("Customer Name must be filled in.");
+        $("#btnNormalOrder").prop('disabled', false); 
+        return;
+    }
+
     var name = $('#customer_name').val();
     var _token   = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
@@ -205,14 +214,32 @@ $("#btnNormalOrder").click(function(){
             if(response){
                 loadPending();
                 $('#msg').text("Order with the ID <" + response.order.id + "> was created.");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'New normal order has been created',
+                    showConfirmButton: false,
+                    timer: 800
+                }) // end Swal.fire
+                setTimeout(function(){$("#btnNormalOrder").removeAttr("disabled")}, 1000);
             }else{
                 $('#msg').text("There is an error.");
+                $("#btnNormalOrder").removeAttr("disabled");
             }
         } // end success
     }); // end ajax
 }); // end btnNormalOrder
 
 $("#btnVipOrder").click(function(){
+    $("#btnVipOrder").prop('disabled', true); 
+
+    if($("#customer_name").val() == ""){
+        alert("Customer Name must be filled in.");
+        $('#msg').text("Customer Name must be filled in.");
+        $("#btnVipOrder").prop('disabled', false); 
+        return;
+    }
+
     var name = $('#customer_name').val();
     var _token   = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
@@ -226,8 +253,17 @@ $("#btnVipOrder").click(function(){
             if(response){
                 loadPending();
                 $('#msg').text("Order with the ID <" + response.order.id + "> was created.");
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'New VIP order has been created',
+                    showConfirmButton: false,
+                    timer: 800
+                }) // end Swal.fire
+                setTimeout(function(){$("#btnVipOrder").removeAttr("disabled")}, 1000);
             }else{
                 $('#msg').text("There is an error.");
+                $("#btnVipOrder").removeAttr("disabled");
             }
         } // end success
     }); // end ajax
@@ -260,7 +296,7 @@ function loadPending(){
 
     setInterval(function(){
         loadPending();
-    }, 1000);
+    }, 1200);
 //--End Load Pending--// 
 
 //--Load Complete--// 
@@ -286,7 +322,7 @@ function loadComplete(){
 
     setInterval(function(){
         loadComplete();
-    }, 1000);
+    }, 1200);
 //--End Load Complete--// 
 
 //--Load Robot--// 
@@ -316,7 +352,7 @@ function loadRobot(){
 
     setInterval(function(){
         loadRobot();
-    }, 1000);
+    }, 1200);
 //--End Load Pending--// 
 
 }); // end doc ready
